@@ -26,3 +26,8 @@ bytes.push(0x00)
 
 tosend = new Uint8Array(bytes)
 console.log(buf2hex(tosend))
+
+
+
+00830f00000000003f414141414141414100
+0083000f00000000003f414141414141414100 
