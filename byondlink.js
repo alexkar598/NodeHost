@@ -62,8 +62,8 @@ class byondLink{
 
 		bytes[0] = 0x00
 		bytes[1] = 0x83
-		bytes[2] = parseInt(len.slice(0,2),16)
-		bytes[3] = parseInt(len.slice(2,4),16)
+		bytes[2] = datalen >> 8
+		bytes[3] = datalen
 		/* padding between header and data (5 bytes of 0x00)*/
 		for (let y = 0; y < data.length; y++) {
 			bytes[9+y] = data.charCodeAt(y) //offsets it to 9 so the padding is there
