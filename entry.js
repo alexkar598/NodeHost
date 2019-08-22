@@ -10,24 +10,18 @@ function buf2hex(buffer) { // buffer is an ArrayBuffer
 	return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
   }
 
-var data = "?AAAAAAAA"
+const byond = require("./byondlink")
 
-var bytes = [0x00,0x83]
-var len = new Uint16Array([data.length + 6])
-bytes.push(len[0])
-zeros = [0x00,0x00,0x00,0x00,0x00]
-zeros.forEach(element => {
-	bytes.push(element)
-})
-string_to_charcodes(data).map((value) => {
-	bytes.push(value)
-})
-bytes.push(0x00)
+var link = new byond("localhost",5565)
+link.send("?AAAAAAAA")
 
-tosend = new Uint8Array(bytes)
-console.log(buf2hex(tosend))
+exitcond = false
+function wait () {
+	if (!exitcond) setTimeout(wait, 1000);
+}
+wait()
 
-
-
-00830f00000000003f414141414141414100
-0083000f00000000003f414141414141414100 
+/*
+00 83 00 0f 00 00 00 00 00 3f 41 41 41 41 41 41 41 41 00
+00 83 00 0f 00 00 00 00 00 3f 41 41 41 41 41 41 41 41 00 
+*/

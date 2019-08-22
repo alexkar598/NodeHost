@@ -1,5 +1,3 @@
-import { toASCII } from "punycode";
-
 const net = require("net")
 
 /**
@@ -8,7 +6,7 @@ const net = require("net")
  * @export
  * @class byondLink
  */
-export default class byondLink{
+class byondLink{
 	/**
 	 *Creates an instance of byondLink.Requires a host/ip,port and authorisation key(leave empty if key not in use)
 	 * @param {*} host
@@ -18,8 +16,6 @@ export default class byondLink{
 	 * @memberof byondLink
 	 */
 	constructor(host,port,key = "key",register_server = false){
-		super()
-
 		this.host = host
 		this.port = port
 		this.key = key
@@ -49,21 +45,37 @@ export default class byondLink{
 		})
 		socket.addListener("connect",(e) => {
 			socket.setEncoding("hex")
-			var bytes = [0x00,0x83]
-			var len = new Uint16Array(length(data) + 6).
-			bytes.push(len)
-			bytes.push([0x00,0x00,0x00,0x00,0x00])
-			bytes.push(toASCII(data))
-			bytes.push(0x00)
-
-			tosend = new Uint8Array(bytes)
-			console.log(tosend)
+			socket.write(this.topic_packet(data))
 		})
+		socket.addListener("data",(e) => {
+			console.log(e)
+		})
+		socket.addListener("end",(e) => {
+			console.log("end")
+		})
+	}
+	topic_packet(data){
+		let datalen = data.length + 6
+		let buflen = 2 + 2 + 5 + data.length + 1
+		let len = datalen.toString(16).padStart(4,"0")
+		let bytes = Buffer.alloc(buflen)
 
-
+		bytes[0] = 0x00
+		bytes[1] = 0x83
+		bytes[2] = parseInt(len.slice(0,2),16)
+		bytes[3] = parseInt(len.slice(2,4),16)
+		/* padding between header and data (5 bytes of 0x00)*/
+		for (let y = 0; y < data.length; y++) {
+			bytes[9+y] = data.charCodeAt(y) //offsets it to 9 so the padding is there
+		}
+		bytes[buflen] = 0x00 //last char after the string must be 0x00
+		console.log(bytes)
+		return bytes
 	}
 	register_server(){
 		this.server = true;
 		console.log("Registering server")
 	}
 }
+
+module.exports = byondLink
