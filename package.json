@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/alexkar598/NodeHost/issues"
   },
-  "homepage": "https://github.com/alexkar598/NodeHost#readme"
+  "homepage": "https://github.com/alexkar598/NodeHost#readme",
+  "dependencies": {
+    "byondlink": "^1.0.0"
+  }
 }
