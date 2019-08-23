@@ -1,5 +1,5 @@
 const spawn = require("child_process").spawn
-function start(control,runMode = "safe"){
+function run(control,runMode = "safe"){
 	let args = [control.world_path]
 	switch (runMode) {
 	case "trusted":
@@ -14,10 +14,12 @@ function start(control,runMode = "safe"){
 	default:
 		break
 	}
-	spawn(control.binary_path,args,{
+	control.gameserver = spawn(control.binary_path,args,{
 		detached: true,
 		stdio: ["ignore","ignore","ignore"]
-	}).unref()
+	})
+	control.gameserver.unref()
+	return "Dreamdaemon is being started."
 }
 
-module.exports = start
+module.exports = run

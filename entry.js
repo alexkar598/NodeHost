@@ -2,10 +2,19 @@ const byond = require("./node_modules/byondlink/index")
 const config = require("config")
 const process = require("process")
 const serverClass = require("./server_control")
+const rl = require("readline").createInterface({
+	input: process.stdin,
+	output: process.stdout,
+	prompt: "NodeHost CLI_> ",
+	completer: completer
+})
 
 const srvctl = new serverClass({binary_path: config.get("server.binary"), world_path: config.get("server.world"),ddlog: config.get("server.ddlog")})
-srvctl.runTask("start",config.get("server.security"))
+
+const commands = () => {return switchCommands.concat(srvctl.listTasks())}
+const switchCommands = "exit".split(" ")
 var link = new byond(config.get("byondsrv.hostname"),config.get("byondsrv.port"),config.get("nodesrv.port"))
+/*
 link.send("AAAAAAAA",(e) => {
 	console.log(e)
 })
@@ -15,5 +24,40 @@ link.addListener("topic",(topic) => {
 })
 link.addListener("error",(err) => {
 	console.log(err.message)
+})*/
+
+
+function completer(line){
+	const hits = commands().filter((c) => c.startsWith(line.trim()))
+
+	return [hits.length ? hits : commands(), line]
+}
+
+rl.prompt()
+
+rl.on("line", (line) => {
+	switch (line.trim()) {
+	case "":
+		break
+	case "exit":
+		cleanExit()
+		break
+	default:
+		if(commands().includes(line.trim())){
+			console.log(srvctl.runTask(line.trim()))
+		}else{
+			console.log("Invalid Command")
+			rl.prompt()
+			rl.write(line.trim())
+			return
+		}
+		break
+	}
+	rl.prompt()
 })
-link.stop_server()
+
+function cleanExit(){
+	link.stop_server()
+	//srvctl.runTask("detach")
+	process.exit(0)
+}
