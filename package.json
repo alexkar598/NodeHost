@@ -23,6 +23,9 @@
   },
   "homepage": "https://github.com/alexkar598/NodeHost#readme",
   "dependencies": {
-    "byondlink": "^1.0.0"
+    "byondlink": "^1.0.0",
+    "config": "^3.2.2",
+    "express": "^4.17.1",
+    "permit": "^0.2.4"
   }
 }
