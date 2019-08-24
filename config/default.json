@@ -7,7 +7,7 @@
         "port": "18595"
 	},
 	"server": {
-		"binary": "C:\\Program Files (x86)\\BYOND\\bin\\dreamdaemon.exe",
+		"binary": "Z:\\Program Files (x86)\\BYOND\\bin\\dreamdaemon.exe",
 		"world": "Z:\\Documents\\Games\\ss13\\BYOND importexport\\reuitestenv.dmb",
 		"ddlog": "Z:\\Documents\\Games\\ss13\\NodeHost\\logs\\dd.log",
 		"security":"ultrasafe"

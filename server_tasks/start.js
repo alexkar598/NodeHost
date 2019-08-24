@@ -15,8 +15,10 @@ function run(control,runMode = "safe"){
 		break
 	}
 	control.gameserver = spawn(control.binary_path,args,{
-		detached: true,
-		stdio: ["ignore","ignore","ignore"]
+			detached: true,
+			stdio: ["ignore","ignore","ignore"]
+	}).on("error",() => {
+		return "Unable to start dreamdaemon. Verify binary path."
 	})
 	control.gameserver.unref()
 	return "Dreamdaemon is being started."

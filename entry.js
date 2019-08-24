@@ -13,10 +13,10 @@ const srvctl = new serverClass({binary_path: config.get("server.binary"), world_
 
 const commands = () => {return switchCommands.concat(srvctl.listTasks())}
 const switchCommands = "exit".split(" ")
-//var link = new byond(config.get("byondsrv.hostname"),config.get("byondsrv.port"),config.get("nodesrv.port"))
-var ll = new byond("158.69.120.60",4133)
+link = new byond(config.get("byondsrv.hostname"),config.get("byondsrv.port"),config.get("nodesrv.port"))
+/*var ll = new byond("158.69.120.60",4133)
 ll.send("status",(e) => console.log(e))
-
+*/
 /*
 link.send("AAAAAAAA",(e) => {
 	console.log(e)
@@ -60,7 +60,7 @@ rl.on("line", (line) => {
 })
 
 function cleanExit(){
-	link.stop_server()
+	//link.stop_server()
 	//srvctl.runTask("detach")
 	process.exit(0)
 }
