@@ -3,17 +3,26 @@ const config = require("config")
 const process = require("process")
 const serverClass = require("./server_control")
 const path = require("path")
+const fs = require("fs")
 // eslint-disable-next-line no-unused-vars
 const colors = require("colors")
+
 const rl = require("readline").createInterface({
 	input: process.stdin,
 	output: process.stdout,
 	prompt: "NodeHost CLI_> ",
 	completer: completer
 })
-var bylink = new byond(config.get("server.hostname"),config.get("server.port"),config.get("httptopic.port"),null,`&provider=${config.get("server.provider")}&key=${config.get("server.authkey")}`)
-const srvctl = new serverClass({link: bylink})
+const internalcfg = JSON.parse((fs.readFileSync("./config/dynamic.json","")))
 
+const bylink = new byond(config.get("server.hostname"),config.get("server.port"),config.get("httptopic.port"),null,`&provider=${config.get("server.provider")}&key=${config.get("server.authkey")}`)
+const git = require("simple-git")()
+
+const srvctl = new serverClass({
+	link: bylink,
+	git: git,
+	cfg: internalcfg
+})
 const commands = () => {return switchCommands.concat(srvctl.listTasks())}
 const switchCommands = "exit reload".split(" ")
 
@@ -76,10 +85,7 @@ rl.on("line",async (line) => {
 			}
 			
 		}else{
-			console.log("Invalid Command")
-			rl.prompt()
-			rl.write(line.trim())
-			return
+			console.log("Invalid Command".grey)
 		}
 		break
 	}

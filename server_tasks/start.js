@@ -22,7 +22,7 @@ async function run({control}){
 		if(control.gameserver && control.gameserver.killed === false){
 			reject("The server is already running")
 		}
-		control.gameserver = spawn(config.get("paths.binary"),args,{
+		control.gameserver = spawn(config.get("paths.dd_binary"),args,{
 			detached: true,
 			stdio: ["ignore","ignore","ignore"],
 		})

@@ -75,7 +75,6 @@ var/datum/nodehost/nh = new /datum/nodehost
 	world.Reboot()
 
 /world/Topic(T)
-	. = ()
 	var/params = params2list(T)
 	if((params["provider"] == NH_PROVIDER) && (params["key"] == NH_AUTHKEY))
 		for(var/V in nh.topiccache)

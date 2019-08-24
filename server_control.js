@@ -1,8 +1,10 @@
-const fs = require("fs")
 const config = require("config")
+const recurReaddirSync = require("recursive-readdir-sync")
 class serverControl{
-	constructor({link}){
+	constructor({link,git,cfg}){
 		this.link = link
+		this.git = git
+		this.data = cfg
 		this.gameserver = null
 		this.taskQueue = []
 		this.queueRunning = false
@@ -20,9 +22,9 @@ class serverControl{
 		return ret
 	}
 	listTasks(){
-		let list = fs.readdirSync("./server_tasks")
+		let list = recurReaddirSync("./server_tasks")
 		list.forEach((value,index,array) => {
-			let re = new RegExp(/(.*)(?:\.\w+$)/)
+			let re = new RegExp(/server_tasks\\(.*)(?:\.\w+$)/)
 			array[index] = re.exec(value)[1]
 		})
 		return list
@@ -60,10 +62,24 @@ class serverControl{
 			this.queueRunning = false
 		}
 	}
-	duplicate() {
-		let ret = new serverControl({link: this.link})
-		ret.gameserver = this.gameserver
-		return ret
+	async forceTask(task) {
+		let taskScript = require("./server_tasks/" + task)
+		let returnObject = {
+			status: "",
+			message: "",
+			payload: null
+		}
+		try {
+			returnObject.message = await taskScript({control:this,payload: returnObject}) //message is whatever string the task returns
+			if(returnObject.status == ""){
+				returnObject.status = "ok" //unless overrode,it will have a status of ok
+			}
+			return returnObject //payload is set by task
+		} catch (error) {
+			returnObject.message = `Error in task ${task}: \n${error}\n` //message is fixed to error message
+			returnObject.status = "error" //errored tasks always have a status of error no matter what
+			return returnObject //payload is set by task
+		}	
 	}
 }
 

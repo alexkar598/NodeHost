@@ -2,14 +2,15 @@
 const byondlink = require("byondlink")
 const config = require("config")
 
-function run({control}){
+function run({control,payload}){
 	return new Promise((resolve,reject)=>{
 		/**
 		 * @type {byondlink}
 		 */
 		let bylink = control.link
 		bylink.send("?action=shutdown",(e) => {
-			if(e == false){
+			if(!e){
+				payload.status = "warn"
 				resolve("Server has refused shutdown signal")
 			}else if(config.get("options.forcekillafterstop")){
 				setTimeout(() => {

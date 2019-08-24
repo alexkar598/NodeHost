@@ -28,7 +28,9 @@
     "config": "^3.2.2",
     "express": "^4.17.1",
     "hasbin": "^1.2.3",
-    "permit": "^0.2.4"
+    "permit": "^0.2.4",
+    "recursive-readdir-sync": "^1.0.6",
+    "simple-git": "^1.124.0"
   },
   "devDependencies": {}
 }

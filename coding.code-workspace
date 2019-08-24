@@ -1,16 +1,16 @@
 {
 	"folders": [
 		{
+			"name": "testenv",
+			"path": "testenv"
+		},
+		{
+			"name": "NodeHost",
 			"path": "."
 		},
 		{
+			"name": "BYONDLink",
 			"path": "C:\\Users\\ALEXK\\Desktop\\NodeHost\\BYONDLink"
-		},
-		{
-			"path": "C:\\Users\\ALEXK\\Desktop\\NodeHost\\nodehostweb"
-		},
-		{
-			"path": "testenv"
 		}
 	],
 	"settings": {}
