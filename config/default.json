@@ -1,15 +1,22 @@
 {
-    "byondsrv": {
-        "hostname": "localhost",
-        "port": "5565"
+    "server": {
+        "hostname": "localhost", //server hostname
+		"port": "5565", //server port
+		"provider": "nodehost", //internal use
+		"authkey": "yeet", //comm key required to communicate with the game
+		"security":"ultrasafe", //security level of dreamdaemon,accepts: safe,ultrasafe,trusted
+		"args": "-once"//space seperated arguements to pass to dreamdaemon
     },
-    "nodesrv": {
-        "port": "18595"
+    "httptopic": {
+        "port": "18595" //port for http localhost request from dreamdaemon(World.Export("http://localhost:{port}")),set to an unused port(do not set to 0)
 	},
-	"server": {
-		"binary": "Z:\\Program Files (x86)\\BYOND\\bin\\dreamdaemon.exe",
-		"world": "Z:\\Documents\\Games\\ss13\\BYOND importexport\\reuitestenv.dmb",
-		"ddlog": "Z:\\Documents\\Games\\ss13\\NodeHost\\logs\\dd.log",
-		"security":"ultrasafe"
+	"paths": {
+		"binary": "C:\\Program Files (x86)\\BYOND\\bin\\dreamdaemon.exe", //path to dreamdaemon.exe
+		"world": "Z:\\Documents\\Games\\ss13\\NodeHost\\testenv\\reuitestenv.dmb" //path to the .dmb host file
+	},
+	"options": {
+		"forcekillafterstop": false, //true kills dreamdaemon after the shutdown topic has returned
+		"stoptime": 3000, //allowed amount of time for DD to shutdown before proceeding with tasks which may kill DD
+		"queuedelay": 1000 //time it takes between running tasks in the task queue,a too short delay may lead into unwanted behaviour
 	}
 }

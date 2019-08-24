@@ -1,7 +1,8 @@
 const spawn = require("child_process").spawn
-function run(control,runMode = "safe"){
-	let args = [control.world_path]
-	switch (runMode) {
+const config = require("config")
+async function run({control}){
+	let args = [config.get("paths.world")]
+	switch (config.get("server.security")) {
 	case "trusted":
 		args.push("-trusted")
 		break
@@ -14,14 +15,29 @@ function run(control,runMode = "safe"){
 	default:
 		break
 	}
-	control.gameserver = spawn(control.binary_path,args,{
+	args.push(`-port ${config.get("server.port")}`)
+	args.concat(config.get("server.args").split(" "))
+	let ret = new Promise((resolve,reject) => {
+		let err = false
+		if(control.gameserver && control.gameserver.killed === false){
+			reject("The server is already running")
+		}
+		control.gameserver = spawn(config.get("paths.binary"),args,{
 			detached: true,
-			stdio: ["ignore","ignore","ignore"]
-	}).on("error",() => {
-		return "Unable to start dreamdaemon. Verify binary path."
+			stdio: ["ignore","ignore","ignore"],
+		})
+		control.gameserver.on("error",(e) => {
+			err = true
+			reject("TASKERR: Unable to start dreamdaemon: " + e)
+		})
+		control.gameserver.unref()
+		setTimeout(() => { //there is no real way to tell if it has been started successfully so just tell yes if it hasent errored out after a second
+			if(!err){
+				resolve("Dreamdaemon has been started")
+			}
+		},1000)
 	})
-	control.gameserver.unref()
-	return "Dreamdaemon is being started."
+	return ret
 }
 
 module.exports = run
