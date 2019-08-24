@@ -1,0 +1,102 @@
+macro "macro"
+	elem 
+		name = "Center+REP"
+		command = ".center"
+	elem 
+		name = "Northeast+REP"
+		command = ".northeast"
+	elem 
+		name = "Southeast+REP"
+		command = ".southeast"
+	elem 
+		name = "Southwest+REP"
+		command = ".southwest"
+	elem 
+		name = "Northwest+REP"
+		command = ".northwest"
+	elem 
+		name = "West+REP"
+		command = ".west"
+	elem 
+		name = "North+REP"
+		command = ".north"
+	elem 
+		name = "East+REP"
+		command = ".east"
+	elem 
+		name = "South+REP"
+		command = ".south"
+	elem 
+		name = "A+REP"
+		command = ".west"
+	elem 
+		name = "D+REP"
+		command = ".east"
+	elem 
+		name = "S+REP"
+		command = ".south"
+	elem 
+		name = "W+REP"
+		command = ".north"
+
+
+menu "menu"
+	elem 
+		name = "F&ile"
+		command = ""
+		saved-params = "is-checked"
+	elem 
+		name = "&Quit"
+		command = ".quit"
+		category = "F&ile"
+		saved-params = "is-checked"
+	elem 
+		name = "&Reconnect"
+		command = ".reconnect"
+		category = "F&ile"
+		saved-params = "is-checked"
+
+
+window "default"
+	elem "default"
+		type = MAIN
+		pos = 281,0
+		size = 1024x768
+		anchor1 = none
+		anchor2 = none
+		is-default = true
+		saved-params = "pos;size;is-minimized;is-maximized"
+		title = "ReUI Testing Environment"
+		macro = "macro"
+		menu = "menu"
+	elem "input1"
+		type = INPUT
+		pos = 0,744
+		size = 1016x24
+		anchor1 = 0,97
+		anchor2 = 99,100
+		is-default = true
+		saved-params = ""
+	elem "output1"
+		type = OUTPUT
+		pos = 640,344
+		size = 376x400
+		anchor1 = 63,45
+		anchor2 = 99,97
+		is-default = true
+		saved-params = "max-lines"
+	elem "info1"
+		type = INFO
+		pos = 640,0
+		size = 384x344
+		anchor1 = 63,0
+		anchor2 = 100,45
+		saved-params = ""
+	elem "map1"
+		type = MAP
+		pos = 0,0
+		size = 640x744
+		anchor1 = 0,0
+		anchor2 = 63,97
+		saved-params = "zoom;letterbox;zoom-mode"
+

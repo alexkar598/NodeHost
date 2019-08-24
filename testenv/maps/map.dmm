@@ -1,0 +1,42 @@
+"a" = (/turf,/area)
+"b" = (/mob/npc,/turf,/area)
+"c" = (/turf/wall,/area)
+"d" = (/obj/computer,/turf,/area)
+
+(1,1,1) = {"
+ccccccccccccccccccccccccccccccccccc
+caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac
+caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac
+caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac
+caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac
+caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac
+caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac
+caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac
+caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac
+caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac
+caaaaaaaaaaacccccaaaaaaaaaaaaaaaaac
+caaaaaaaaaaacccccaaaaaaaaaaaaaaaaac
+caaaaaaaaaaacccccaaaaaaaaaaaaaaaaac
+caaaaaaaaaaacccccaaaaaaaaaaaaaaaaac
+caaaaabaaaaaaaaaaaaaaaaaaaaaaaaaaac
+caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac
+caaaaaaabaaaaaaaaaaaaaaaaaaaaaaaaac
+caaaaaaaaaaaaaabaaaaaaaaaaaaaaaaaac
+caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac
+caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac
+caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac
+caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac
+caaaaaaaaaaaaaaaaaaaaaabaaaaaaaaaac
+caaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaac
+caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac
+caaaaaaaaaaaabaaaaaaaaaaaaaaaaaaaac
+caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac
+caaaaaaadaaaaaaaaaaaaaaaaaaaaaaaaac
+caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac
+caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac
+caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac
+caaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaac
+caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac
+caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac
+ccccccccccccccccccccccccccccccccccc
+"}
