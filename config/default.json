@@ -13,18 +13,21 @@
 	"paths": {
 		"dm_binary": "C:\\Program Files (x86)\\BYOND\\bin\\dm.exe", //path to dreammaker.exe
 		"dd_binary": "C:\\Program Files (x86)\\BYOND\\bin\\dreamdaemon.exe", //path to dreamdaemon.exe
-		//"world": "Z:\\Documents\\Games\\ss13\\NodeHost\\testenv\\reuitestenv.dmb" //path to the .dmb host file
-		"world": "C:\\Users\\ALEXK\\Desktop\\NodeHost\\NodeHost\\testenv\\reuitestenv.dmb",
-		"dme": "C:\\Users\\ALEXK\\Desktop\\NodeHost\\NodeHost\\testenv\\reuitestenv.dme"//dme file used for recompilation,leave empty to disable recompile
+		"world": "Z:\\Documents\\Games\\ss13\\testenv\\reuitestenv.dmb", //path to the .dmb host file
+		"dme": "Z:\\Documents\\Games\\ss13\\testenv\\reuitestenv.dme"
+		//"world": "C:\\Users\\ALEXK\\Desktop\\NodeHost\\NodeHost\\testenv\\reuitestenv.dmb",
+		//"dme": "C:\\Users\\ALEXK\\Desktop\\NodeHost\\NodeHost\\testenv\\reuitestenv.dme"//dme file used for recompilation,leave empty to disable recompile
 	},
 	"options": {
 		"forcekillafterstop": false, //true kills dreamdaemon after the shutdown topic has returned
 		"stoptime": 3000, //allowed amount of time for DD to shutdown before proceeding with tasks which may kill DD
-		"queuedelay": 2000 //time it takes between running tasks in the task queue,a too short delay may lead into unwanted behaviour
+		"queuedelay": 2000, //time it takes between running tasks in the task queue,a too short delay may lead into unwanted behaviour
+		"tasktimeout": 10000 //time before the taskqueue decides it has been too long and moves on with its life,note that it will NOT terminate the task,just let it run in background
 	},
 	"git": {
-		"enable": true,
+		"enabled": true,
 		"remote": "origin",
-		"branch": "master"
+		"branch": "master",
+		"gitdir": "Z:\\Documents\\Games\\ss13\\testenv"
 	}
 }

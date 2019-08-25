@@ -11,6 +11,13 @@
 			"program": "${workspaceFolder}\\entry.js",
 			"console": "integratedTerminal",
 			"args": ["strict"]
+		},
+		{
+            "type": "node",
+            "request": "launch",
+            "name": "Launch liveJSON",
+			"program": "${workspaceFolder}\\libs\\livejson.js",
+			"args": ["strict"]
         }
     ]
 }

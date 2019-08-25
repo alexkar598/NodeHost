@@ -15,6 +15,16 @@ class serverControl{
 		}
 		let ret = new Promise(((resolve,reject) => {
 			this.taskQueue.push({resolve: resolve,reject: reject,task: task})
+			let returnObject = {
+				status: "",
+				message: "",
+				payload: null
+			}
+			setTimeout(() => {
+				returnObject.message = "Task timeout,resuming queue,task will continue in background"
+				returnObject.status = "timeout"
+				resolve(returnObject)
+			},config.get("options.tasktimeout"))
 		}).bind(this))
 		if(this.queueRunning == false){
 			this.runQueue()
@@ -36,23 +46,33 @@ class serverControl{
 		this.queueRunning = true
 		let {resolve,reject,task} = this.taskQueue.shift()
 		try{
-			let taskScript = require("./server_tasks/" + task)
+			
 			let returnObject = {
 				status: "",
 				message: "",
 				payload: null
 			}
+			setTimeout(() => {
+				returnObject.message = "Task timeout,resuming queue,task will continue in background"
+				returnObject.status = "timeout"
+				resolve(returnObject)
+			},config.get("options.tasktimeout"))
 			try {
+				let taskScript = require("./server_tasks/" + task)
+				// eslint-disable-next-line require-atomic-updates
 				returnObject.message = await taskScript({control:this,payload: returnObject}) //message is whatever string the task returns
 				if(returnObject.status == ""){
+					// eslint-disable-next-line require-atomic-updates
 					returnObject.status = "ok" //unless overrode,it will have a status of ok
 				}
 				resolve(returnObject) //payload is set by task
 			} catch (error) {
+				// eslint-disable-next-line require-atomic-updates
 				returnObject.message = `Error in task ${task}: \n${error}\n` //message is fixed to error message
+				// eslint-disable-next-line require-atomic-updates
 				returnObject.status = "error" //errored tasks always have a status of error no matter what
 				resolve(returnObject) //payload is set by task
-			}
+			}	
 		}catch(error){
 			reject(error)
 		}
@@ -63,23 +83,31 @@ class serverControl{
 		}
 	}
 	async forceTask(task) {
-		let taskScript = require("./server_tasks/" + task)
-		let returnObject = {
-			status: "",
-			message: "",
-			payload: null
-		}
-		try {
-			returnObject.message = await taskScript({control:this,payload: returnObject}) //message is whatever string the task returns
-			if(returnObject.status == ""){
-				returnObject.status = "ok" //unless overrode,it will have a status of ok
+		// eslint-disable-next-line no-async-promise-executor
+		let ret = new Promise(async (resolve) => {
+			let returnObject = {
+				status: "",
+				message: "",
+				payload: null
 			}
-			return returnObject //payload is set by task
-		} catch (error) {
-			returnObject.message = `Error in task ${task}: \n${error}\n` //message is fixed to error message
-			returnObject.status = "error" //errored tasks always have a status of error no matter what
-			return returnObject //payload is set by task
-		}	
+			try {
+				let taskScript = require("./server_tasks/" + task)
+				// eslint-disable-next-line require-atomic-updates
+				returnObject.message = await taskScript({control:this,payload: returnObject}) //message is whatever string the task returns
+				if(returnObject.status == ""){
+					// eslint-disable-next-line require-atomic-updates
+					returnObject.status = "ok" //unless overrode,it will have a status of ok
+				}
+				resolve(returnObject) //payload is set by task
+			} catch (error) {
+				// eslint-disable-next-line require-atomic-updates
+				returnObject.message = `Error in task ${task}: \n${error}\n` //message is fixed to error message
+				// eslint-disable-next-line require-atomic-updates
+				returnObject.status = "error" //errored tasks always have a status of error no matter what
+				resolve(returnObject) //payload is set by task
+			}	
+		})
+		return ret
 	}
 }
 

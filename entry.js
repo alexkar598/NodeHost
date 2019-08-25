@@ -16,7 +16,7 @@ const rl = require("readline").createInterface({
 const internalcfg = JSON.parse((fs.readFileSync("./config/dynamic.json","")))
 
 const bylink = new byond(config.get("server.hostname"),config.get("server.port"),config.get("httptopic.port"),null,`&provider=${config.get("server.provider")}&key=${config.get("server.authkey")}`)
-const git = require("simple-git")()
+const git = require("simple-git")(config.get("git.gitdir")).silent(true)
 
 const srvctl = new serverClass({
 	link: bylink,
@@ -74,18 +74,22 @@ rl.on("line",async (line) => {
 		})
 		break
 	default:
-		if(commands().includes(line.trim())){
-			let results = await srvctl.runTask(line.trim())
-			if(results.status == "ok"){ //if its ok,put it in green
-				console.log(`OK: ${results.message.green}`)
-			}else if(results.status == "error"){
-				console.error(`ERR: ${results.message.red}`) //if there is an error,put it in red
+		try{
+			if(commands().includes(line.trim())){
+				let results = await srvctl.runTask(line.trim())
+				if(results.status == "ok"){ //if its ok,put it in green
+					console.log(`OK: ${results.message.green}`)
+				}else if(results.status == "error"){
+					console.error(`ERR: ${results.message.red}`) //if there is an error,put it in red
+				}else{
+					console.log(`${results.status.toUpperCase()}: ${results.message.yellow}`) //its a thing,not sure what but its a thing so lets make sure to print it out in yellow
+				}
+				
 			}else{
-				console.log(`${results.status.toUpperCase()}: ${results.message.yellow}`) //its a thing,not sure what but its a thing so lets make sure to print it out in yellow
+				console.log("Invalid Command".grey)
 			}
-			
-		}else{
-			console.log("Invalid Command".grey)
+		}catch(error){
+			console.error(`Error in CLI module,taskoutput unknown: \n${error}`.red)
 		}
 		break
 	}
