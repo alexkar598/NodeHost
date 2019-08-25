@@ -9,12 +9,12 @@ class serverControl{
 		this.taskQueue = []
 		this.queueRunning = false
 	}
-	async runTask(task){
+	async runTask(task,...params){
 		if(!this.listTasks().includes(task)){ //no executing false tasks or tasks outside directory or something
 			return
 		}
 		let ret = new Promise(((resolve,reject) => {
-			this.taskQueue.push({resolve: resolve,reject: reject,task: task})
+			this.taskQueue.push({resolve: resolve,reject: reject,task: task,params: params})
 			let returnObject = {
 				status: "",
 				message: "",
@@ -27,7 +27,7 @@ class serverControl{
 			},config.get("options.tasktimeout"))
 		}).bind(this))
 		if(this.queueRunning == false){
-			this.runQueue()
+			setTimeout(this.runQueue.bind(this),config.get("options.queuedelay"))
 		}
 		return ret
 	}
@@ -39,12 +39,12 @@ class serverControl{
 		})
 		return list
 	}
-	async runQueue(){
-		if(this.taskQueue.length == 0 || this.queueRunning){ //sanity checks
+	async runQueue(recur = false){
+		if(!this.taskQueue || this.taskQueue.length == 0 || recur !== this.queueRunning){ //sanity checks
 			return
 		}
 		this.queueRunning = true
-		let {resolve,reject,task} = this.taskQueue.shift()
+		let {resolve,reject,task,params} = this.taskQueue.shift()
 		try{
 			
 			let returnObject = {
@@ -60,7 +60,7 @@ class serverControl{
 			try {
 				let taskScript = require("./server_tasks/" + task)
 				// eslint-disable-next-line require-atomic-updates
-				returnObject.message = await taskScript({control:this,payload: returnObject}) //message is whatever string the task returns
+				returnObject.message = await taskScript({control:this,payload: returnObject},...params) //message is whatever string the task returns
 				if(returnObject.status == ""){
 					// eslint-disable-next-line require-atomic-updates
 					returnObject.status = "ok" //unless overrode,it will have a status of ok
@@ -77,12 +77,12 @@ class serverControl{
 			reject(error)
 		}
 		if(this.taskQueue.length != 0){
-			setTimeout(this.runQueue,config.get("options.queuedelay"))
+			setTimeout((() => {this.runQueue(true)}).bind(this),config.get("options.queuedelay"))
 		}else{
 			this.queueRunning = false
 		}
 	}
-	async forceTask(task) {
+	async forceTask(task,...params) {
 		// eslint-disable-next-line no-async-promise-executor
 		let ret = new Promise(async (resolve) => {
 			let returnObject = {
@@ -93,7 +93,7 @@ class serverControl{
 			try {
 				let taskScript = require("./server_tasks/" + task)
 				// eslint-disable-next-line require-atomic-updates
-				returnObject.message = await taskScript({control:this,payload: returnObject}) //message is whatever string the task returns
+				returnObject.message = await taskScript({control:this,payload: returnObject},...params) //message is whatever string the task returns
 				if(returnObject.status == ""){
 					// eslint-disable-next-line require-atomic-updates
 					returnObject.status = "ok" //unless overrode,it will have a status of ok

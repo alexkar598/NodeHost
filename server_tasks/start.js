@@ -1,6 +1,6 @@
 const spawn = require("child_process").spawn
 const config = require("config")
-async function run({control}){
+async function run({control},force = false){
 	let args = [config.get("paths.world")]
 	switch (config.get("server.security")) {
 	case "trusted":
@@ -19,8 +19,9 @@ async function run({control}){
 	args.concat(config.get("server.args").split(" "))
 	let ret = new Promise((resolve,reject) => {
 		let err = false
-		if(control.gameserver && control.gameserver.killed === false){
+		if(control.gameserver && control.gameserver.killed === false && !force){
 			reject("The server is already running")
+			return
 		}
 		control.gameserver = spawn(config.get("paths.dd_binary"),args,{
 			detached: true,

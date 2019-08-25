@@ -16,7 +16,7 @@ const rl = require("readline").createInterface({
 const internalcfg = JSON.parse((fs.readFileSync("./config/dynamic.json","")))
 
 const bylink = new byond(config.get("server.hostname"),config.get("server.port"),config.get("httptopic.port"),null,`&provider=${config.get("server.provider")}&key=${config.get("server.authkey")}`)
-const git = require("simple-git")(config.get("git.gitdir")).silent(true)
+const git = require("simple-git")(config.get("paths.gamedir")).silent(true)
 
 const srvctl = new serverClass({
 	link: bylink,
@@ -48,7 +48,7 @@ bylink.addListener("error",(err) => {
 
 
 function completer(line){
-	const hits = commands().filter((c) => c.startsWith(line.trim()))
+	const hits = commands().filter((c) => c.startsWith(line.trim().split(" ")[0]))
 
 	return [hits.length ? hits : commands(), line]
 }
@@ -57,7 +57,7 @@ rl.prompt()
 
 rl.on("line",async (line) => {
 	rl.pause()
-	switch (line.trim()) {
+	switch (line.trim().split(" ")[0]) {
 	case "":
 		break
 	case "exit":
@@ -75,8 +75,14 @@ rl.on("line",async (line) => {
 		break
 	default:
 		try{
-			if(commands().includes(line.trim())){
-				let results = await srvctl.runTask(line.trim())
+			if(commands().includes(line.trim().split(" ")[0])){
+				let results
+				if(line.trim().split(" ")[0] == "debug"){ //debug function is a special task that should be able to bypass the queue
+					results = await srvctl.forceTask(...line.trim().split(" "))
+				}else{
+					results = await srvctl.runTask(...line.trim().split(" "))
+				}
+				
 				if(results.status == "ok"){ //if its ok,put it in green
 					console.log(`OK: ${results.message.green}`)
 				}else if(results.status == "error"){
