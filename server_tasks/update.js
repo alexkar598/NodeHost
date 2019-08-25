@@ -10,7 +10,7 @@ module.exports = async function run({control}){
 	})
 	await control.git.pull(config.get("git.remote"),config.get("git.branch"))
 	let recompile = await control.forceTask("recompile")
-	if(recompile.status === "error"){
+	if(recompile.status !== "ok"){
 		control.git.reset(["--hard",previousHead])
 		throw Error(`Error in recompilation,reverted changes\n${recompile.message}`)
 	}else{

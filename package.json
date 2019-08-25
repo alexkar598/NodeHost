@@ -4,7 +4,6 @@
   "description": "Node.JS based hosting suit for BYOND",
   "main": "entry.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node entry.js"
   },
   "repository": {
@@ -28,6 +27,7 @@
     "config": "^3.2.2",
     "express": "^4.17.1",
     "hasbin": "^1.2.3",
+    "livejson": "^1.0.0",
     "permit": "^0.2.4",
     "recursive-readdir-sync": "^1.0.6",
     "simple-git": "^1.124.0"

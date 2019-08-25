@@ -24,7 +24,7 @@ async function run({control}){
 		}
 		control.gameserver = spawn(config.get("paths.dd_binary"),args,{
 			detached: true,
-			stdio: ["ignore","ignore","ignore"],
+			stdio: ["ignore","ignore","ignore"]
 		})
 		control.gameserver.on("error",(e) => {
 			err = true

@@ -13,21 +13,25 @@
 	"paths": {
 		"dm_binary": "C:\\Program Files (x86)\\BYOND\\bin\\dm.exe", //path to dreammaker.exe
 		"dd_binary": "C:\\Program Files (x86)\\BYOND\\bin\\dreamdaemon.exe", //path to dreamdaemon.exe
-		"world": "Z:\\Documents\\Games\\ss13\\testenv\\reuitestenv.dmb", //path to the .dmb host file
-		"dme": "Z:\\Documents\\Games\\ss13\\testenv\\reuitestenv.dme"
-		//"world": "C:\\Users\\ALEXK\\Desktop\\NodeHost\\NodeHost\\testenv\\reuitestenv.dmb",
-		//"dme": "C:\\Users\\ALEXK\\Desktop\\NodeHost\\NodeHost\\testenv\\reuitestenv.dme"//dme file used for recompilation,leave empty to disable recompile
+		//"world": "Z:\\Documents\\Games\\ss13\\testenv\\reuitestenv.dmb", //path to the .dmb host file
+		//"dme": "Z:\\Documents\\Games\\ss13\\testenv\\reuitestenv.dme"
+		"world": "reuitestenv.dmb",
+		"dme": "reuitestenv.dme",//dme file used for recompilation,leave empty to disable recompile
+		"rsc": "reuitestenv.rsc", //the rsc file,used to detect lock
+		"gamedir": "C:\\Users\\ALEXK\\Desktop\\NodeHost\\testenv",
+		"stagingdir": "staging"
 	},
 	"options": {
-		"forcekillafterstop": false, //true kills dreamdaemon after the shutdown topic has returned
-		"stoptime": 3000, //allowed amount of time for DD to shutdown before proceeding with tasks which may kill DD
+		"killafterstop": true, //true kills dreamdaemon after the shutdown topic has returned
 		"queuedelay": 2000, //time it takes between running tasks in the task queue,a too short delay may lead into unwanted behaviour
-		"tasktimeout": 10000 //time before the taskqueue decides it has been too long and moves on with its life,note that it will NOT terminate the task,just let it run in background
+		"tasktimeout": 10000, //time before the taskqueue decides it has been too long and moves on with its life,note that it will NOT terminate the task,just let it run in background
+		"allowkillall": true //set to true to allow the killall command and the killall call in restart if the server has been detached
 	},
 	"git": {
 		"enabled": true,
 		"remote": "origin",
 		"branch": "master",
-		"gitdir": "Z:\\Documents\\Games\\ss13\\testenv"
+		//"gitdir": "Z:\\Documents\\Games\\ss13\\testenv"
+		"gitdir": "C:\\Users\\ALEXK\\Desktop\\NodeHost\\NodeHost\\testenv"
 	}
 }

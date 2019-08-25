@@ -1,7 +1,7 @@
 const os = require("os")
 const exec = require("child_process").exec
 
-function run({control}){
+function run(){
 	let ret = new Promise((resolve,reject) => {
 		switch (os.platform()) {
 		case "linux":
