@@ -2,7 +2,7 @@
 	"folders": [
 		{
 			"name": "testenv",
-			"path": "testenv"
+			"path": "../testenv"
 		},
 		{
 			"name": "NodeHost",
