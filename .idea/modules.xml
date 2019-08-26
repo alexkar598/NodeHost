@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/NodeHost.iml" filepath="$PROJECT_DIR$/NodeHost.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../BYONDLink/byondlink.iml" filepath="$PROJECT_DIR$/../BYONDLink/byondlink.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../testenv/testenv.iml" filepath="$PROJECT_DIR$/../testenv/testenv.iml" />
+    </modules>
+  </component>
+</project>
