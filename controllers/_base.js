@@ -1,7 +1,8 @@
 const config = require("config");
-const recurReaddirSync = require("recursive-readdir-sync");
+const fs = require("fs");
 class controller{
-    constructor({link,git,cfg}){
+    constructor(){
+        this.id = "test";
         this.taskQueue = [];
         this.queueRunning = false
     }
@@ -27,13 +28,21 @@ class controller{
         }
         return ret
     }
+
+    /**
+     * @returns {Array}
+     */
     listTasks(){
-        let list = recurReaddirSync("./server_tasks");
-        list.forEach((value,index,array) => {
-            let re = new RegExp(/server_tasks\\(.*)(?:\.\w+$)/);
-            array[index] = re.exec(value)[1]
-        })
-        return list
+        try {
+            let list = fs.readdirSync(`../server_tasks/${this.id}`);
+            list.forEach((value, index, array) => {
+                let re = new RegExp(`(.*)(?:\\.\\w+$)`);
+                array[index] = re.exec(value)[1]
+            });
+            return list
+        } catch (e) {
+            return []
+        }
     }
     async runQueue(recur = false){
         if(!this.taskQueue || this.taskQueue.length === 0 || recur !== this.queueRunning){ //sanity checks
@@ -47,14 +56,14 @@ class controller{
                 status: "",
                 message: "",
                 payload: null
-            }
+            };
             setTimeout(() => {
                 returnObject.message = "Task timeout,resuming queue,task will continue in background"
                 returnObject.status = "timeout"
                 resolve(returnObject)
             },config.get("options.tasktimeout"))
             try {
-                let taskScript = require("./server_tasks/" + task)
+                let taskScript = require(`../server_tasks/${this.id}/${task}`)
                 // eslint-disable-next-line require-atomic-updates
                 returnObject.message = await taskScript({control:this,payload: returnObject},...params) //message is whatever string the task returns
                 if(returnObject.status == ""){
@@ -87,7 +96,7 @@ class controller{
                 payload: null
             }
             try {
-                let taskScript = require("./server_tasks/" + task)
+                let taskScript = require(`../server_tasks/${this.id}/${task}`)
                 // eslint-disable-next-line require-atomic-updates
                 returnObject.message = await taskScript({control:this,payload: returnObject},...params) //message is whatever string the task returns
                 if(returnObject.status == ""){
@@ -99,12 +108,18 @@ class controller{
                 // eslint-disable-next-line require-atomic-updates
                 returnObject.message = `Error in task ${task}: \n${error}\n` //message is fixed to error message
                 // eslint-disable-next-line require-atomic-updates
-                returnObject.status = "error" //errored tasks always have a status of error no matter what
+                returnObject.status = "error"; //errored tasks always have a status of error no matter what
                 resolve(returnObject) //payload is set by task
             }
-        })
+        });
         return ret
     }
 }
-
-module.exports = serverControl
+let t = new controller();
+console.log(t.listTasks());
+t.runTask("old").then((e) => {
+    console.log(e.message);
+}).catch((e) => {
+    console.log(`error while running task: ${e}`)
+});
+module.exports = controller;

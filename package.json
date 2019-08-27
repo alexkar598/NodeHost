@@ -4,7 +4,8 @@
   "description": "Node.JS based hosting suit for BYOND",
   "main": "entry.js",
   "scripts": {
-    "start": "node entry.js"
+    "start": "node entry.js",
+    "controllertest": "node controllers/_base.js"
   },
   "repository": {
     "type": "git",
@@ -30,7 +31,8 @@
     "livejson": "^1.0.0",
     "permit": "^0.2.4",
     "recursive-readdir-sync": "^1.0.6",
-    "simple-git": "^1.124.0"
+    "simple-git": "^1.124.0",
+    "x2js": "^3.3.1"
   },
   "devDependencies": {}
 }

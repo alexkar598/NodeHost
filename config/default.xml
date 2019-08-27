@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+    <server>
+        <hostname>localhost</hostname> //server hostname
+        <port>5565</port> //server port
+        <provider>nodehost</provider> //keep it the same as the provider in BYOND
+        <authkey>yeet</authkey> //comm key required to communicate with the game
+        <security>ultrasafe</security> //security level of dreamdaemon,accepts: safe,ultrasafe,trusted
+        <args>-once</args> //space seperated arguements to pass to dreamdaemon
+    </server>
+    <httptopic>
+        <port>18595</port>//port for http localhost request from dreamdaemon(World.Export("http://localhost:{port}")),set to an unused port(do not set to 0)
+    </httptopic>
+    <paths>
+        <dm_binary>C:\Program Files (x86)\BYOND\bin\dm.exe</dm_binary> //path to dreammaker.exe
+        <dd_binary>C:\Program Files (x86)\BYOND\bin\dreamdaemon.exe</dd_binary> //path to dreamdaemon.exe
+        <world>reuitestenv.dmb</world> //filename with extension of the dmb
+        <dme>reuitestenv.dme</dme> //filename with extension of the dme
+        <rsc>reuitestenv.rsc</rsc> //filename with extension of the rsc file
+        <gamedir>C:\Users\ALEXK\Desktop\NodeHost\testenv</gamedir> //path to the directory the hostfiles/codefiles are in
+        //<gamedir>Z:\\Documents\\Games\\ss13\\testenv</gamedir>
+        <stagingdir>staging</stagingdir> //TODO add documentation to this shit
+    </paths>
+    <options>
+        <killafterstop>true</killafterstop> //true kills dreamdaemon after the shutdown signal has been sent and gamefile have been released
+        <queuedelay>500</queuedelay> //delay before executing next item in a controller queue
+        <tasktimeout>10000</tasktimeout> //time before saying fuck it,return a timeout and let the task run in background
+    </options>
+    <git>
+        <enabled>true</enabled> //enable git module
+        <remote>origin</remote> //remote name
+        <branch>master</branch> //remote branch
+    </git>
+    <bannedscripts>
+    </bannedscripts>
+</config>
